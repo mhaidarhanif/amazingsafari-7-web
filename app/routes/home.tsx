@@ -20,6 +20,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <div>
       <h1>Amazing Safari</h1>
+      <p>Simple ecommerce to buy zoo merchandise.</p>
       <ul>
         {products.map((product) => {
           return (
