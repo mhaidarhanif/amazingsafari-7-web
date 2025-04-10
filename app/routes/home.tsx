@@ -1,4 +1,4 @@
-import type { Products } from "~/modules/product/schema";
+import type { Products } from "~/modules/product/type";
 import type { Route } from "./+types/home";
 import { parseHtmlToReact } from "~/lib/html";
 import { Link } from "react-router";
