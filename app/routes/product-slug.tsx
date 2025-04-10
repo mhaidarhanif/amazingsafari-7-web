@@ -22,14 +22,7 @@ export default function ProductSlug({ loaderData }: Route.ComponentProps) {
   const product = loaderData;
 
   return (
-    <div className="container mx-auto px-4 py-8 dark:bg-gray-900">
-      <h1 className="text-4xl font-bold text-center mb-4 dark:text-white">
-        Amazing Safari
-      </h1>
-      <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
-        Simple ecommerce to buy zoo merchandise.
-      </p>
-
+    <div className="container mx-auto">
       <div
         key={product.id}
         className="flex bg-white dark:bg-gray-800 rounded-lg overflow-hidden"

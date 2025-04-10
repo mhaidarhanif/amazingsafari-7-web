@@ -21,14 +21,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const products = loaderData;
 
   return (
-    <div className="container mx-auto px-4 py-8 dark:bg-gray-900">
-      <h1 className="text-4xl font-bold text-center mb-4 dark:text-white">
-        Amazing Safari
-      </h1>
-      <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
-        Simple ecommerce to buy zoo merchandise.
-      </p>
-
+    <div className="container mx-auto">
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => {
           return (
