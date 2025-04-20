@@ -9,6 +9,22 @@ import {
 } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import type { Route } from "./+types/register";
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const email = String(formData.get("email"));
+  const password = String(formData.get("password"));
+
+  const registerUserData = {
+    email,
+    password,
+  };
+
+  console.log({ registerUserData });
+
+  return null;
+}
 
 export default function RegisterPage() {
   return (
