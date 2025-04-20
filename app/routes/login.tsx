@@ -1,4 +1,4 @@
-import { Form } from "react-router";
+import { Form, redirect } from "react-router";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -9,6 +9,35 @@ import {
 } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import type { Route } from "./+types/login";
+
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "Login - Amazing Safari" }];
+}
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const email = String(formData.get("email"));
+  const password = String(formData.get("password"));
+
+  const loginUserData = {
+    email,
+    password,
+  };
+
+  // TODO: ky.post("/auth/login", loginUserData)
+  const response = await fetch(`${process.env.BACKEND_API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(loginUserData),
+  });
+  if (!response.ok) return null;
+  const loginResult = await response.json();
+
+  console.log({ loginResult });
+
+  return redirect("/dashboard");
+}
 
 export default function LoginPage() {
   return (

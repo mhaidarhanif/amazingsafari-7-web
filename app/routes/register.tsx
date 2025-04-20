@@ -1,4 +1,4 @@
-import { Form } from "react-router";
+import { Form, redirect } from "react-router";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -11,6 +11,10 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import type { Route } from "./+types/register";
 
+export function meta({}: Route.MetaArgs) {
+  return [{ title: "Register - Amazing Safari" }];
+}
+
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   const email = String(formData.get("email"));
@@ -21,9 +25,16 @@ export async function action({ request }: Route.ActionArgs) {
     password,
   };
 
-  console.log({ registerUserData });
+  // TODO: ky.post("/auth/register", registerUserData)
+  const response = await fetch(`${process.env.BACKEND_API_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(registerUserData),
+  });
+  if (!response.ok) return null;
+  const registerResult = await response.json();
 
-  return null;
+  return redirect("/login");
 }
 
 export default function RegisterPage() {
