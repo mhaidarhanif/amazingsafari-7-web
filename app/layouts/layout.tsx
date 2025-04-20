@@ -62,6 +62,22 @@ export default function Layout() {
                     About
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/register"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Register
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/login"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Login
+                  </Link>
+                </li>
               </ul>
             </nav>
           </div>
