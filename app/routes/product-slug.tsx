@@ -2,6 +2,9 @@ import type { Route } from "./+types/product-slug";
 import type { Product } from "~/modules/product/type";
 import { parseHtmlToReact } from "~/lib/html";
 import { convertCurrencyToIDR } from "~/lib/currency";
+import { Form } from "react-router";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -47,6 +50,21 @@ export default function ProductSlug({ loaderData }: Route.ComponentProps) {
           <p className="text-lg font-bold text-green-600 dark:text-green-400">
             {convertCurrencyToIDR(product.price)}
           </p>
+
+          <div>
+            <Form method="post" className="flex gap-4">
+              <input type="hidden" name="productId" defaultValue={product.id} />
+              <Input
+                type="number"
+                name="quantity"
+                className="max-w-20"
+                min={1}
+                max={100}
+                defaultValue={1}
+              />
+              <Button type="submit">Add to Cart</Button>
+            </Form>
+          </div>
         </div>
       </div>
     </div>
