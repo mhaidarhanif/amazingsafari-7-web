@@ -2,9 +2,11 @@ import type { Route } from "./+types/product-slug";
 import type { Product } from "~/modules/product/type";
 import { parseHtmlToReact } from "~/lib/html";
 import { convertCurrencyToIDR } from "~/lib/currency";
-import { Form } from "react-router";
+import { Form, redirect } from "react-router";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
+import { destroySession, getSession } from "~/sessions.server";
+import type { AddCartItem } from "~/modules/cart/schema";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,6 +21,38 @@ export async function loader({ params }: Route.LoaderArgs) {
   );
   const product: Product = await response.json();
   return product;
+}
+
+export async function action({ request }: Route.ActionArgs) {
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("token")) {
+    return redirect("/login");
+  }
+  const token = session.get("token");
+
+  const formData = await request.formData();
+
+  const addCartItemData: AddCartItem = {
+    productId: String(formData.get("productId")),
+    quantity: Number(formData.get("quantity")),
+  };
+
+  const response = await fetch(`${process.env.BACKEND_API_URL}/cart/items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(addCartItemData),
+  });
+  if (!response.ok) {
+    session.flash("error", "Failed to add item to cart");
+    return redirect("/login", {
+      headers: { "Set-Cookie": await destroySession(session) },
+    });
+  }
+
+  return redirect("/cart");
 }
 
 export default function ProductSlug({ loaderData }: Route.ComponentProps) {
