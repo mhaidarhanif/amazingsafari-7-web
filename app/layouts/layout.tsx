@@ -78,6 +78,14 @@ export default function Layout() {
                     Login
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/cart"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Cart
+                  </Link>
+                </li>
               </ul>
             </nav>
           </div>
